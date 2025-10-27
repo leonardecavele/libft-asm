@@ -1,8 +1,7 @@
 global _start
-
-%include "putstr.asm"
-%include "strlen.asm"
-%include "itoa.asm"
+extern putstr
+extern strlen
+extern itoa
 
 segment	.data
 hw db "Hello world", 10, 0
