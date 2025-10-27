@@ -2,15 +2,17 @@ global itoa
 
 segment .text
 itoa:
-	mov rax, rdi	; quotient
-	mov rsi, 1		; NULL
+	push rbx
+	mov rbx, rdi		; save n
+	mov rax, rbx		; quotient
+	mov rcx, 10
+	mov rsi, 2			; NULL
 	cmp rax, 0
 	jge .size_loop
-	inc rsi			; minus
+	inc rsi				; minus
 	neg rax
 	.size_loop:
 		inc rsi
-		mov rcx, 10
 		xor rdx, rdx
 		div rcx
 		cmp rax, 0
@@ -22,25 +24,31 @@ itoa:
 	mov r10, 0x22
 	mov r8, -1
 	xor r9, r9
-	syscall			; mmap
+	syscall				; mmap
 
-	mov r10, rax	; save beginning pointer
-	mov rsi, rax
-	mov rax, rdi
+	mov r9, rax			; save beginning pointer
+	mov r10, rax
+	add r10, rsi
+	dec r10
+	mov byte [r10], 0
+	dec r10
+	mov byte [r10], 10
+	dec r10
+
+	mov rax, rbx		; quotient
+	mov rcx, 10
 	cmp rax, 0
 	jge .itoa_loop
-	mov byte [rsi], '-'
-	inc rsi
 	neg rax
+	mov byte [r9], '-'
 	.itoa_loop:
-		mov rcx, 10
 		xor rdx, rdx
 		div rcx
-		add rdx, '0'
-		mov byte [rsi], dl
-		inc rsi
+		add dl, '0'
+		mov byte [r10], dl
+		dec r10
 		cmp rax, 0
 		jg .itoa_loop
-	mov byte [rsi], 0
-	mov rax, r10
+	mov rax, r9
+	pop rbx
 	ret
