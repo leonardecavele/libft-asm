@@ -2,6 +2,7 @@ NAME = test
 SRCS = \
 	   helloworld.asm \
 	   putstr.asm \
+	   putchar.asm \
 	   strlen.asm \
 	   itoa.asm
 
