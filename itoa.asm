@@ -6,7 +6,7 @@ itoa:
 	mov rbx, rdi		; save n
 	mov rax, rbx		; quotient
 	mov rcx, 10
-	mov rsi, 2			; NULL
+	mov rsi, 1			; NULL
 	cmp rax, 0
 	jge .size_loop
 	inc rsi				; minus
@@ -31,8 +31,6 @@ itoa:
 	add r10, rsi
 	dec r10
 	mov byte [r10], 0
-	dec r10
-	mov byte [r10], 10
 	dec r10
 
 	mov rax, rbx		; quotient
